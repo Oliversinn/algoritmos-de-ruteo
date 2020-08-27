@@ -4,15 +4,15 @@
 			"neighbors": [
 				{
 					"name": "B",
-					"weight": 7,
+					"weight": 7
 				},
 				{
 					"name": "I",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "C",
-					"weight": 7,
+					"weight": 7
 				}
 			]
 		},
@@ -21,11 +21,11 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 7,
+					"weight": 7
 				},
 				{
 					"name": "F",
-					"weight": 2,
+					"weight": 2
 				}
 			]
 		},
@@ -34,11 +34,11 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 7,
+					"weight": 7
 				},
 				{
 					"name": "D",
-					"weight": 5,
+					"weight": 5
 				}
 			]
 		},
@@ -47,19 +47,19 @@
 			"neighbors": [
 				{
 					"name": "C",
-					"weight": 5,
+					"weight": 5
 				},
 				{
 					"name": "E",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "F",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "I",
-					"weight": 6,
+					"weight": 6
 				}
 			]
 		},
@@ -68,11 +68,11 @@
 			"neighbors": [
 				{
 					"name": "D",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "G",
-					"weight": 4,
+					"weight": 4
 				}
 			]
 		},
@@ -81,19 +81,19 @@
 			"neighbors": [
 				{
 					"name": "B",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "D",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "G",
-					"weight": 3,
+					"weight": 3
 				},
 				{
 					"name": "H",
-					"weight": 4,
+					"weight": 4
 				}
 			]
 		},
@@ -102,11 +102,11 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 3,
+					"weight": 3
 				},
 				{
 					"name": "E",
-					"weight": 4,
+					"weight": 4
 				}
 			]
 		},
@@ -115,7 +115,7 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 4,
+					"weight": 4
 				}
 			]
 		},
@@ -124,11 +124,11 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 2,
+					"weight": 2
 				},
 				{
 					"name": "D",
-					"weight": 6,
+					"weight": 6
 				}
 			]
 		}

@@ -8,7 +8,7 @@ NAME = 'C'
 @sio.event
 def connect():
     print("I'm connected!")
-    sio.emit('signin', {'username':name})
+    sio.emit('signin', {'username':name, 'neighbors': neighbors})
 
 @sio.event
 def connect_error():
@@ -29,7 +29,8 @@ with open('nodes.json') as f:
   nodes = json.load(f)
 
 for n in nodes:
-	if n['name'] == NAME:
-		name = n['name']
+	if n['node_id'] == NAME:
+		name = n['node_id']
+		neighbors = n['neighbors']
 sio.connect('http://localhost:5000')
 sio.wait()
