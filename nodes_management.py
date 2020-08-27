@@ -16,6 +16,9 @@ def connect(sid, environ):
 
 @sio.event
 def disconnect(sid):
+    for n in nodes:
+        if n['id'] == sid:
+            nodes.remove(n)
     session = sio.get_session(sid)
     print('disconnect ', session['username'], sid)
 

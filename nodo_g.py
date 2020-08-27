@@ -3,6 +3,7 @@ import json
 
 # standard Python
 sio = socketio.Client()
+NAME = 'G'
 
 @sio.event
 def connect():
@@ -28,7 +29,7 @@ with open('nodes.json') as f:
   nodes = json.load(f)
 
 for n in nodes:
-	if n['name'] == 'A':
+	if n['name'] == NAME:
 		name = n['name']
 sio.connect('http://localhost:5000')
 sio.wait()
