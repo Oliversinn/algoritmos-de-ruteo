@@ -24,9 +24,9 @@ def disconnect(sid):
 
 @sio.on('signin')
 def signin(sid,data):
-    sio.save_session(sid, {"username": data['username']})
+    sio.save_session(sid, {"username": data['username'], "neighbors": data['neighbors']})
     session = sio.get_session(sid)
-    nodes.append({'id':sid, 'username': data['username']})
+    nodes.append({'id':sid, 'username': data['username'], "neighbors": data['neighbors']})
     print(f"username: {session['username']}")
     sio.emit("ready")
 
