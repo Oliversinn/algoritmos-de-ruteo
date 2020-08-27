@@ -16,5 +16,13 @@ def connect_error():
 def disconnect():
     print("I'm disconnected!")
 
+@sio.on('ready')
+def ready():
+	try:
+		msg = input("que mensaje: ")
+		sio.emit("send_msg", msg)
+	except KeyboardInterrupt:
+		sio.disconnect()
+
 sio.connect('http://localhost:5000')
 sio.wait()
