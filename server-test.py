@@ -7,6 +7,9 @@ sio = socketio.Server()
 # wrap with a WSGI application
 app = socketio.WSGIApp(sio)
 
+#Variable para ver los nodos
+nodes = []
+
 @sio.event
 def connect(sid, environ):
     print('connect ', sid)
@@ -20,6 +23,7 @@ def disconnect(sid):
 def signin(sid,data):
     sio.save_session(sid, {"username": data['username']})
     session = sio.get_session(sid)
+    nodes.append({'id':sid, 'username': data['username']})
     print(f"username: {session['username']}")
     sio.emit("ready")
 
@@ -27,6 +31,8 @@ def signin(sid,data):
 def signin(sid,msg):
     session = sio.get_session(sid)
     print('message from ', session['username'], msg)
+    for n in nodes:
+    	print(n)
     sio.emit("ready")
 
 

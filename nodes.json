@@ -1,0 +1,68 @@
+[
+		{
+			"name": "A",
+			"neighbors": [
+				"B",
+				"I",
+				"C"
+			]
+		},
+		{
+			"name": "B",
+			"neighbors": [
+				"A",
+				"F"
+			]
+		},
+		{
+			"name": "C",
+			"neighbors": [
+				"A",
+				"D"
+			]
+		},
+		{
+			"name": "D",
+			"neighbors": [
+				"C",
+				"E",
+				"F",
+				"I"
+			]
+		},
+		{
+			"name": "E",
+			"neighbors": [
+				"D",
+				"G"
+			]
+		},
+		{
+			"name": "F",
+			"neighbors": [
+				"B",
+				"D",
+				"H"
+			]
+		},
+		{
+			"name": "G",
+			"neighbors": [
+				"F",
+				"E"
+			]
+		},
+		{
+			"name": "H",
+			"neighbors": [
+				"F"
+			]
+		},
+		{
+			"name": "I",
+			"neighbors": [
+				"A",
+				"D"
+			]
+		}
+]

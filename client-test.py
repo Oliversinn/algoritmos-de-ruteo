@@ -1,4 +1,5 @@
 import socketio
+import json
 
 # standard Python
 sio = socketio.Client()
@@ -6,7 +7,7 @@ sio = socketio.Client()
 @sio.event
 def connect():
     print("I'm connected!")
-    sio.emit('signin', {'username':'oli'})
+    sio.emit('signin', {'username':name})
 
 @sio.event
 def connect_error():
@@ -18,11 +19,16 @@ def disconnect():
 
 @sio.on('ready')
 def ready():
-	try:
-		msg = input("que mensaje: ")
-		sio.emit("send_msg", msg)
-	except KeyboardInterrupt:
+	msg = input("que mensaje: ")
+	if msg == "exit":
 		sio.disconnect()
+	sio.emit("send_msg", msg)
 
+with open('nodes.json') as f:
+  nodes = json.load(f)
+
+for n in nodes:
+	if n['name'] == 'A':
+		name = n['name']
 sio.connect('http://localhost:5000')
 sio.wait()
