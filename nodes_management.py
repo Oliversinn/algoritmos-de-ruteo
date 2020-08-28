@@ -1,5 +1,7 @@
 import socketio
 import eventlet
+import json
+
 
 # create a Socket.IO server
 sio = socketio.Server()
@@ -8,7 +10,11 @@ sio = socketio.Server()
 app = socketio.WSGIApp(sio)
 
 #Variable para ver los nodos
-nodes = []
+nodes = [] #
+
+# llama al json con nodos
+with open('nodes.json') as f:
+  nodes = json.load(f)
 
 @sio.event
 def connect(sid, environ):
@@ -23,7 +29,7 @@ def disconnect(sid):
     print('disconnect ', session['username'], sid)
 
 @sio.on('signin')
-def signin(sid,data):
+def signin(sid, data):
     sio.save_session(sid, {"username": data['username'], "neighbors": data['neighbors']})
     session = sio.get_session(sid)
     nodes.append({'id':sid, 'username': data['username'], "neighbors": data['neighbors']})
@@ -31,12 +37,16 @@ def signin(sid,data):
     sio.emit("ready")
 
 @sio.on('send_msg')
-def signin(sid,msg):
+def send_msg(sid, msg, nid):
     session = sio.get_session(sid)
-    print('message from ', session['username'], msg)
+    print('\nMessage from', session['username'], '\n-----------------','\n', msg, '\n-----------------','\nto: ', nid)
     for n in nodes:
-    	print(n)
-    sio.emit("ready")
+        if sid == n['node_id']:
+            neighbors = n['neighbors']
+            for vecino in neighbors:
+                sio.emit('ready', vecino)
+                print('Por FLOODING', n['node_id'], 'se envia a los vecinos: ', neighbors)
+    
 
 
 if __name__ == '__main__':
