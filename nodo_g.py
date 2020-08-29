@@ -18,7 +18,7 @@ def connect_error():
 def disconnect():
     print("I'm disconnected!")
 
-@sio.on('ready')
+# @sio.on('ready')
 def ready():
 	nid = str(input("A que nodo: ")) #nid = nodo destino
 	msg = str(input("Qué mensaje: "))
@@ -29,7 +29,28 @@ def ready():
 	'''
 	if msg == "exit":
 		sio.disconnect()
-	sio.emit("send_msg", data=(msg, nid)) 
+	data = {
+		'from': [NAME],
+		'to': nid,
+		'message': msg
+	}
+	sio.emit("send_msg", data) 
+	print('message sent\n\n\n')
+
+@sio.on('flood')
+def flood(data):
+	if data['to'] == NAME:
+		print('\n You recieved a message!\n',\
+		'\n-----------------','\nfrom: ', data['from'][0],
+        '\n-----------------','\nmessage: ', data['message'])
+	else:
+		print('\nRecived message: ', data)
+		if len(data['from']) + 1 != 9:
+			message = data
+			message['from'].append(NAME)
+			sio.emit('send_msg', message)
+			print('\nSent message: ', message)
+
 
 with open('nodes.json') as f:
   nodes = json.load(f)
@@ -38,5 +59,5 @@ for n in nodes:
 	if n['node_id'] == NAME:
 		name = n['node_id']
 		neighbors = n['neighbors']
+
 sio.connect('http://localhost:5000')
-sio.wait()

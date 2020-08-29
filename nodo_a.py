@@ -4,6 +4,7 @@ import json
 # standard Python
 sio = socketio.Client()
 NAME = 'A'
+mandar = True # solo para hacer pruebas
 
 @sio.event
 def connect():
@@ -20,20 +21,40 @@ def disconnect():
 
 @sio.on('ready')
 def ready():
-	nid = str(input("A que nodo: ")) #nid = nodo destino
-	msg = str(input("Qué mensaje: "))
+	global mandar
+	# nid = str(input("A que nodo: ")) #nid = nodo destino
+	# msg = str(input("Qué mensaje: "))
 	'''
 	if nid != "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I":
 		print("nodo no existe")
 		sio.disconnect()
 	'''
-	if msg == "exit":
-		sio.disconnect()
-	sio.emit("send_msg", data=(msg, nid)) 
+	# if msg == "exit":
+	# 	sio.disconnect()
+	data = {
+		'from': [NAME],
+		'to': 'B',
+		'message': 'Holaaaaaaa'
+	}
+	if mandar:
+		sio.emit("send_msg", data) 
+		mandar = False
+		print('message sent\n\n\n')
 
 @sio.on('flood')
-def flood():
-	return
+def flood(data):
+	if data['to'] == NAME:
+		print('\n You recieved a message!\n',\
+		'\n-----------------','\nfrom: ', data['from'][0],
+        '\n-----------------','\nmessage: ', data['message'])
+	else:
+		print('\nRecived message: ', data)
+		if len(data['from']) + 1 != 9:
+			message = data
+			message['from'].append(NAME)
+			sio.emit('send_msg', message)
+			print('\nSent message: ', message)
+
 
 
 with open('nodes.json') as f:
@@ -43,5 +64,5 @@ for n in nodes:
 	if n['node_id'] == NAME:
 		name = n['node_id']
 		neighbors = n['neighbors']
+
 sio.connect('http://localhost:5000')
-sio.wait()
