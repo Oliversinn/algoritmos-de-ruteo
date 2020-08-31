@@ -43,13 +43,27 @@ def flood(data):
 		print('\n You recieved a message!\n',\
 		'\n-----------------','\nfrom: ', data['from'][0],
         '\n-----------------','\nmessage: ', data['message'])
+		aknowledge = data
+		aknowledge['hops'] = data['from']
+		sio.emit('flood_aknowledge', aknowledge)
 	else:
 		print('\nRecived message: ', data)
-		if len(data['from']) + 1 != 9:
+		if (len(data['from']) + 1 != 9) & (NAME not in data['from']):
 			message = data
 			message['from'].append(NAME)
 			sio.emit('send_msg', message)
 			print('\nSent message: ', message)
+
+@sio.on('flood_aknowledge')
+def flood_aknowledge(data):
+	if data['from'][0] == NAME:
+		print(f"\n Your message to {data['to']} was succesfully delivered.")
+		print('\n-----------------','\nHops: ', data['from'])
+	else:
+		print('\nRecived FLOOD AKNOWLEDGE: ', data)
+		sio.emit('flood_aknowledge', data)
+
+
 
 
 with open('nodes.json') as f:

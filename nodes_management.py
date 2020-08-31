@@ -67,14 +67,23 @@ def send_msg(sid, data):
                 sio.emit('flood',data, to=node['id'])
                 print(f"Sent message to {session['username']}'s neighbor {node['username']}")
     sio.emit('ready',to=sid)
-    
-                
-    # for n in nodes:
-    #     if sid == n['node_id']:
-    #         neighbors = n['neighbors']
-    #         for vecino in neighbors:
-    #             sio.emit('ready', vecino)
-    #             print('Por FLOODING', n['node_id'], 'se envia a los vecinos: ', neighbors)
+
+@sio.on('flood_aknowledge')
+def flood_aknowledge(sid, data):
+    session = sio.get_session(sid)
+    # Message log
+    print('\Aknowledge at node', session['username'],
+        '\n-----------------','\nFrom: ', data['to'],
+        '\n-----------------','\nto: ', data['from'][0],
+        '\n-----------------','\nhops: ', data['hops'])
+    aknowledge = data
+    neighbor = aknowledge['hops'].pop()
+    for node in nodes:
+        if node['username'] == neighbor:
+            sio.emit('flood_aknowledge',aknowledge, to=node['id'])
+            print(f"\nSent FLOOD AKNOWLEDGE from {session['username']} to {node['username']}.\n")
+            break
+
     
 
 
