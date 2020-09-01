@@ -1,0 +1,135 @@
+[
+		{
+			"node_id": "A",
+			"neighbors": [
+				{
+					"name": "B",
+					"weight": 7
+				},
+				{
+					"name": "I",
+					"weight": 2
+				},
+				{
+					"name": "C",
+					"weight": 7
+				}
+			]
+		},
+		{
+			"node_id": "B",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 7
+				},
+				{
+					"name": "F",
+					"weight": 2
+				}
+			]
+		},
+		{
+			"node_id": "C",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 7
+				},
+				{
+					"name": "D",
+					"weight": 5
+				}
+			]
+		},
+		{
+			"node_id": "D",
+			"neighbors": [
+				{
+					"name": "C",
+					"weight": 5
+				},
+				{
+					"name": "E",
+					"weight": 2
+				},
+				{
+					"name": "F",
+					"weight": 2
+				},
+				{
+					"name": "I",
+					"weight": 6
+				}
+			]
+		},
+		{
+			"node_id": "E",
+			"neighbors": [
+				{
+					"name": "D",
+					"weight": 2
+				},
+				{
+					"name": "G",
+					"weight": 4
+				}
+			]
+		},
+		{
+			"node_id": "F",
+			"neighbors": [
+				{
+					"name": "B",
+					"weight": 2
+				},
+				{
+					"name": "D",
+					"weight": 2
+				},
+				{
+					"name": "G",
+					"weight": 3
+				},
+				{
+					"name": "H",
+					"weight": 4
+				}
+			]
+		},
+		{
+			"node_id": "G",
+			"neighbors": [
+				{
+					"name": "F",
+					"weight": 3
+				},
+				{
+					"name": "E",
+					"weight": 4
+				}
+			]
+		},
+		{
+			"node_id": "H",
+			"neighbors": [
+				{
+					"name": "F",
+					"weight": 4
+				}
+			]
+		},
+		{
+			"node_id": "I",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 2
+				},
+				{
+					"name": "D",
+					"weight": 6
+				}
+			]
+		}
+]
