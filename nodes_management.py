@@ -50,7 +50,7 @@ def signin(sid, data):
 
     print(f"username: {session['username']}")
     print(nodes)
-    sio.emit("ready")
+    sio.emit("ready", to=sid)
 
 @sio.on('send_msg')
 def send_msg(sid, data):
@@ -71,7 +71,7 @@ def send_msg(sid, data):
 def flood_aknowledge(sid, data):
     session = sio.get_session(sid)
     # Message log
-    print('\Aknowledge at node', session['username'],
+    print('\nAknowledge at node', session['username'],
         '\n-----------------','\nFrom: ', data['to'],
         '\n-----------------','\nto: ', data['from'][0],
         '\n-----------------','\nhops: ', data['hops'])
