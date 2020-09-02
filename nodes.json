@@ -4,15 +4,18 @@
 			"neighbors": [
 				{
 					"name": "B",
-					"weight": 7
+					"weight": 7,
+					"next_hop": []
 				},
 				{
 					"name": "I",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "C",
-					"weight": 7
+					"weight": 7,
+					"next_hop": []
 				}
 			]
 		},
@@ -21,11 +24,13 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 7
+					"weight": 7,
+					"next_hop": []
 				},
 				{
 					"name": "F",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				}
 			]
 		},
@@ -34,11 +39,13 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 7
+					"weight": 7,
+					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 5
+					"weight": 5,
+					"next_hop": []
 				}
 			]
 		},
@@ -47,19 +54,23 @@
 			"neighbors": [
 				{
 					"name": "C",
-					"weight": 5
+					"weight": 5,
+					"next_hop": []
 				},
 				{
 					"name": "E",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "F",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "I",
-					"weight": 6
+					"weight": 6,
+					"next_hop": []
 				}
 			]
 		},
@@ -68,11 +79,13 @@
 			"neighbors": [
 				{
 					"name": "D",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "G",
-					"weight": 4
+					"weight": 4,
+					"next_hop": []
 				}
 			]
 		},
@@ -81,19 +94,23 @@
 			"neighbors": [
 				{
 					"name": "B",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "G",
-					"weight": 3
+					"weight": 3,
+					"next_hop": []
 				},
 				{
 					"name": "H",
-					"weight": 4
+					"weight": 4,
+					"next_hop": []
 				}
 			]
 		},
@@ -102,11 +119,13 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 3
+					"weight": 3,
+					"next_hop": []
 				},
 				{
 					"name": "E",
-					"weight": 4
+					"weight": 4,
+					"next_hop": []
 				}
 			]
 		},
@@ -115,7 +134,8 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 4
+					"weight": 4,
+					"next_hop": []
 				}
 			]
 		},
@@ -124,11 +144,13 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 2
+					"weight": 2,
+					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 6
+					"weight": 6,
+					"next_hop": []
 				}
 			]
 		}

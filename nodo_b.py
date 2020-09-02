@@ -3,10 +3,11 @@ import json
 import questionary
 import time
 
-menu_on = True # solo para hacer pruebas
 # standard Python
 sio = socketio.Client()
 NAME = 'B'
+wait_tables = True
+menu_on = True # solo para hacer pruebas
 
 @sio.event
 def connect():
@@ -24,9 +25,10 @@ def disconnect():
 @sio.on('ready')
 def ready():
 	global menu_on
+	global wait_tables
 	while(menu_on):
 		time.sleep(1)
-		print("------------ MENU PRINCIPAL DEL NODO ------------")
+		print("\n------------ MENU PRINCIPAL DEL NODO ------------")
 		#Pedimos el nodo al cual mandar el mensaje
 		nodo_destino = questionary.select(
 			"Escoja a que nodo desea enviar el mensaje",
@@ -56,6 +58,11 @@ def ready():
 				}
 				sio.emit("send_msg", data) 
 				print('message sent\n\n\n')
+			elif algoritmo == 'Distance vector routing':
+				sio.emit('calc_distance', {"nei":neighbors, "name":NAME})
+				print("compartiendo tablas con los vecinos, espere")
+				time.sleep(5)
+				print(neighbors)
 			else:
 				print("not yet implemented")
 	
@@ -88,14 +95,36 @@ def flood(data):
 def flood_aknowledge(data):
 	if data['from'][0] == NAME:
 		print(f"\n Your message to {data['to']} was succesfully delivered.")
-		print('\n-----------------> Hops: ', data['from'])
+		print('\n-----------------','\nHops: ', data['from'])
 	else:
 		print('\nRecived FLOOD AKNOWLEDGE: ', data)
 		sio.emit('flood_aknowledge', data)
 
+@sio.on('update_table')
+def update_table(v_table):
+	global neighbors
+	#Encontramos la distancia de este nodo hacia el vecino que le mando el mensaje
+	for n in neighbors:
+		if n['name'] == v_table['id']:
+			distance_to_emitter = n['weight']
 
+	for n in neighbors:
+		for v in v_table['nei']:
+			if n['name'] == v['name']:
+				current_estimation = min(n['weight'], distance_to_emitter + v['weight'])
+				if current_estimation != n['weight']:
+					n['weight'] = current_estimation
+					n['next_hop'].append(v['name'])
+			else:
+				neighbors.append(v)
+	sio.emit('calc_distance', {"nei":neighbors, "name":NAME})
 
-
+@sio.on('done_calc')
+def done_calc():
+	global neighbors
+	
+	print("done calculating")
+	print(neighbors)
 
 with open('nodes.json') as f:
   nodes = json.load(f)
