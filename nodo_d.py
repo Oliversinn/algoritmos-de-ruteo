@@ -30,7 +30,7 @@ def ready():
 		#Pedimos el nodo al cual mandar el mensaje
 		nodo_destino = questionary.select(
 			"Escoja a que nodo desea enviar el mensaje",
-			choices=['B','C','D','F','G','H','I','Salir']
+			choices=['A','B','C','E','F','G','H','I','Salir']
 		).ask()
 		
 		if nodo_destino == 'Salir':
@@ -66,14 +66,18 @@ def ready():
 @sio.on('flood')
 def flood(data):
 	if data['to'] == NAME:
-		print('\n You recieved a message!\n',
+		print('\n SOMEONE SEND YOU A MESSAGE!\n',
 		'\n-----------------','\nfrom: ', data['from'][0],
         '\n-----------------','\nmessage: ', data['message'])
 		aknowledge = data
 		aknowledge['hops'] = data['from']
 		sio.emit('flood_aknowledge', aknowledge)
 	else:
-		print('\nRecived message: ', data)
+		print('\nRecived message: \n')
+		print('From: ' + str(data['from'][0]))
+		print('Message passed through: ' + str(data['from'][1:]))
+		print("This is the message: " + data['message'])
+
 		if (len(data['from']) + 1 != 9) & (NAME not in data['from']):
 			message = data
 			message['from'].append(NAME)
