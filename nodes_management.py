@@ -66,7 +66,6 @@ def send_msg(sid, data):
             if (neighbor['name'] == node['username']) & (node['username'] != data['from'][-1]):
                 sio.emit('flood',data, to=node['id'])
                 print(f"Sent message to {session['username']}'s neighbor {node['username']}")
-    sio.emit('ready',to=sid)
 
 @sio.on('flood_aknowledge')
 def flood_aknowledge(sid, data):
