@@ -71,7 +71,7 @@ def send_msg(sid, data):
 def flood_aknowledge(sid, data):
     session = sio.get_session(sid)
     # Message log
-    print('\Aknowledge at node', session['username'],
+    print('\nAknowledge at node', session['username'],
         '\n-----------------','\nFrom: ', data['to'],
         '\n-----------------','\nto: ', data['from'][0],
         '\n-----------------','\nhops: ', data['hops'])

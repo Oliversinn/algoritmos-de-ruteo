@@ -1,46 +1,72 @@
 import socketio
 import json
+import questionary
+import time
 
+menu_on = True # solo para hacer pruebas
 # standard Python
 sio = socketio.Client()
 NAME = 'F'
 
 @sio.event
 def connect():
-    print("I'm connected! as F")
+    print("I'm connected! as " + NAME)
     sio.emit('signin', {'username':name, 'neighbors': neighbors})
 
 @sio.event
 def connect_error():
-    print("The connection failed!")
+    print("\nThe connection failed!")
 
 @sio.event
 def disconnect():
-    print("I'm disconnected!")
+    print("\nI'm disconnected!")
 
-# @sio.on('ready')
+@sio.on('ready')
 def ready():
-	nid = str(input("A que nodo: ")) #nid = nodo destino
-	msg = str(input("Qué mensaje: "))
-	'''
-	if nid != "A" or "B" or "C" or "D" or "E" or "F" or "G" or "H" or "I":
-		print("nodo no existe")
-		sio.disconnect()
-	'''
-	if msg == "exit":
-		sio.disconnect()
-	data = {
-		'from': [NAME],
-		'to': nid,
-		'message': msg
-	}
-	sio.emit("send_msg", data) 
-	print('message sent\n\n\n')
+	global menu_on
+	while(menu_on):
+		time.sleep(1)
+		print("------------ MENU PRINCIPAL DEL NODO ------------")
+		#Pedimos el nodo al cual mandar el mensaje
+		nodo_destino = questionary.select(
+			"Escoja a que nodo desea enviar el mensaje",
+			choices=['B','C','D','F','G','H','I','Salir']
+		).ask()
+		
+		if nodo_destino == 'Salir':
+			menu_on = False
+		else:
+			print(nodo_destino)
+
+			msg = input("escibr el mensaje que deseas mandar: ")
+
+			#Pedimos algoritmo a utilizar
+			algoritmo = questionary.select(
+				"Por favor escoja el algoritmo que desea utilizar para dirigir el tráfico entre nodo",
+				choices=['Flooding', 'Distance vector routing', 'Link state routing']
+			).ask()
+
+			print(algoritmo)
+
+			if algoritmo =='Flooding':
+				data = {
+					'from': [NAME],
+					'to': nodo_destino,
+					'message': msg
+				}
+				sio.emit("send_msg", data) 
+				print('message sent\n\n\n')
+			else:
+				print("not yet implemented")
+	
+	print("Hasta luego!")
+	sio.disconnect()
+
 
 @sio.on('flood')
 def flood(data):
 	if data['to'] == NAME:
-		print('\n You recieved a message!\n',\
+		print('\n You recieved a message!\n',
 		'\n-----------------','\nfrom: ', data['from'][0],
         '\n-----------------','\nmessage: ', data['message'])
 		aknowledge = data
@@ -62,6 +88,8 @@ def flood_aknowledge(data):
 	else:
 		print('\nRecived FLOOD AKNOWLEDGE: ', data)
 		sio.emit('flood_aknowledge', data)
+
+
 
 
 

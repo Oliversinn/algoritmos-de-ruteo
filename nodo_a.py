@@ -2,6 +2,7 @@ import socketio
 import json
 import questionary
 import time
+
 # standard Python
 sio = socketio.Client()
 NAME = 'A'
