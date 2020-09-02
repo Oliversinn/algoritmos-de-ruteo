@@ -50,7 +50,7 @@ def signin(sid, data):
 
     print(f"username: {session['username']}")
     print(nodes)
-    sio.emit("ready")
+    sio.emit("ready", to=sid)
 
 @sio.on('send_msg')
 def send_msg(sid, data):
