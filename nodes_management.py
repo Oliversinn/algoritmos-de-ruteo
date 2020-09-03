@@ -72,6 +72,66 @@ def send_msg(sid, data):
                 sio.emit('flood',data, to=node['id'])
                 print(f"Sent message to {session['username']}'s neighbor {node['username']}")
 
+@sio.on('link_flood')
+def link_flood(sid,data):
+    session = sio.get_session(sid)
+    # Message log
+    print('\nLink flood at node', session['username'],
+        '\n-----------------','\nfrom: ', data['from'][0])
+    for neighbor in session['neighbors']:
+        for node in nodes:
+            if (neighbor['name'] == node['username']) & (node['username'] not in data['from']):
+                sio.emit('link_flood',data, to=node['id'])
+
+@sio.on('link_flood_aknowledge')
+def link_flood_aknowledge(sid, data):
+    session = sio.get_session(sid)
+    # Message log
+    print('\nLink flood Aknowledge at node', session['username'],
+        '\n-----------------','\nFrom: ', data['from'][-1],
+        '\n-----------------','\nto: ', data['from'][0],
+        '\n-----------------','\nhops: ', data['hops'])
+    aknowledge = data
+    neighbor = aknowledge['hops'].pop()
+    for node in nodes:
+        if (node['username'] == neighbor):
+            sio.emit('link_flood_aknowledge',aknowledge, to=node['id'])
+            print(f"\nSent LINK FLOOD AKNOWLEDGE from {session['username']} to {node['username']}.\n")
+            break
+    
+@sio.on('link_message')
+def link_message(sid,data):
+    session = sio.get_session(sid)
+    # Message log
+    print('\nLink message at node', session['username'],
+        '\n-----------------','\nFrom: ', data['from'][0],
+        '\n-----------------','\nto: ', data['hops'][-1],
+        '\n-----------------','\nhops: ', data['hops'])
+    link_message = data
+    neighbor = link_message['hops'].pop(0)
+    for node in nodes:
+        if node['username'] == neighbor:
+            sio.emit('link_message',link_message, to=node['id'])
+            print(f"\nSent LINK MESSAGE from {session['username']} to {node['username']}.\n")
+            break
+
+@sio.on('link_message_aknowledge')
+def link_message_aknowledge(sid, data):
+    session = sio.get_session(sid)
+    # Message log
+    print('\nAknowledge at node', session['username'],
+        '\n-----------------','\nFrom: ', data['from'][-1],
+        '\n-----------------','\nto: ', data['from'][0],
+        '\n-----------------','\nhops: ', data['hops'])
+    aknowledge = data
+    neighbor = aknowledge['hops'].pop()
+    for node in nodes:
+        if node['username'] == neighbor:
+            sio.emit('link_message_aknowledge',aknowledge, to=node['id'])
+            print(f"\nSent LINK MESSAGE AKNOWLEDGE from {session['username']} to {node['username']}.\n")
+            break
+    
+
 @sio.on('flood_aknowledge')
 def flood_aknowledge(sid, data):
     session = sio.get_session(sid)
