@@ -6,6 +6,20 @@ import time
 sio = socketio.Client()
 NAME = 'A'
 menu_on = True # solo para hacer pruebas
+with open('nodes.json') as f:
+  nodes = json.load(f)
+
+for n in nodes:
+	if n['node_id'] == NAME:
+		name = n['node_id']
+		neighbors = n['neighbors']
+
+link_database = []
+route_table = {
+	'node_id':NAME,
+	'neighbors': neighbors
+}
+
 
 @sio.event
 def connect():
@@ -23,6 +37,7 @@ def disconnect():
 @sio.on('ready')
 def ready():
 	global menu_on
+	global link_database
 	global neighbors
 	while(menu_on):
 		time.sleep(1)
@@ -65,11 +80,79 @@ def ready():
 				print("compartiendo tablas con los vecinos, espere")
 				time.sleep(5)
 				print(neighbors)
+			elif algoritmo == 'Link state routing':
+				link_database = [route_table]
+				sio.emit('link_flood',{'from':[NAME]})
+				while len(link_database) != 9:
+					continue
+				print('\nGot all routing tables\n')
+				path = best_path(link_database,NAME,nodo_destino)
+				print(f"\nBest path: {path[0]} \nWeight: {path[1]}")
+				link_message = {
+					'from': [NAME],
+					'hops':path[0][1:],
+					'message': msg
+				}
+				sio.emit('link_message',link_message)
+
 			else:
 				print("not yet implemented")
 	
 	print("Hasta luego!")
 	sio.disconnect()
+
+@sio.on('link_flood')
+def link_flood(data):
+	acknowledge = data
+	acknowledge['hops'] = data['from']
+	acknowledge['from'].append(NAME)
+	acknowledge['table'] = {
+		'node_id': NAME,
+		'neighbors': neighbors
+	}
+	sio.emit('link_flood_aknowledge', acknowledge)
+	flood = data
+	flood['from'].append(NAME)
+	sio.emit('link_flood',flood)
+	
+@sio.on('link_flood_aknowledge')
+def link_flood_aknowledge(data):
+	global link_database
+	if data['from'][0] == NAME:
+		if data['from'][-1] not in [tabla['node_id'] for tabla in link_database]:
+			print(f'\n Recieved ROUTING TABLE from {data["from"][-1]}')
+			link_database.append(data['table'])
+	else:
+		
+		sio.emit('link_flood_aknowledge', data)
+
+@sio.on('link_message')
+def link_message(data):
+	if len(data['hops']) == 0:
+		print('\nSOMEONE SEND YOU A MESSAGE!\n',
+		'\n-----------------','\nfrom: ', data['from'][0],
+        '\n-----------------','\nmessage: ', data['message'])
+		aknowledge = data
+		aknowledge['from'].append(NAME)
+		aknowledge['hops'] = data['from']
+		sio.emit('link_message_aknowledge', aknowledge)
+	else:
+		print('\nRecived LINK MESSAGE: \n')
+		print('From: ' + str(data['from'][0]))
+		print('to: ' + str(data['hops'][-1]))
+		message = data
+		message['from'].append(NAME)
+		sio.emit('link_message',message)
+		print('\nSent LINK MESSAGE')
+
+@sio.on("link_message_aknowledge")
+def flood_aknowledge(data):
+	if data['from'][0] == NAME:
+		print(f"\nYour message to {data['from'][-1]} was succesfully delivered.")
+		print('\n-----------------','\nHops: ', data['from'])
+	else:
+		
+		sio.emit('link_message_aknowledge', data)
 
 
 @sio.on('flood')
@@ -99,7 +182,7 @@ def flood_aknowledge(data):
 		print(f"\n Your message to {data['to']} was succesfully delivered.")
 		print('\n-----------------','\nHops: ', data['from'])
 	else:
-		print('\nRecived FLOOD AKNOWLEDGE: ', data)
+		
 		sio.emit('flood_aknowledge', data)
 
 @sio.on('update_table')
@@ -128,42 +211,36 @@ def done_calc():
 	print("done calculating")
 	print(neighbors)
 
-with open('nodes.json') as f:
-  nodes = json.load(f)
 
-for n in nodes:
-	if n['node_id'] == NAME:
-		name = n['node_id']
-		neighbors = n['neighbors']
 
 sio.connect('http://localhost:5000')
 
 
-
-
-def get_path(graph, src, dest, path = []):
-	path = path + [src]
-	if src == dest: 
-		return path
-	for node in nodes:
-		if node['node_id'] == src:
-			for neighbor in node['neighbors']:
-				if neighbor['name'] not in path:
-					path_new = get_path(graph, neighbor['name'],dest,path)
-					if path_new:
-						return path_new
-
 def get_all_path(graph, src, dest, path = []):
 	path = path + [src]
-	if src == dest: 
+	if src[0] == dest: 
 		return [path]
 	paths = []
 	new_path_list = []
 	for node in nodes:
-		if node['node_id'] == src:
+		if node['node_id'] == src[0]:
 			for neighbor in node['neighbors']:
-				if neighbor['name'] not in path:
-					new_path_list = get_all_path(graph, neighbor['name'],dest,path)
+				visitados = [tupla[0] for tupla in path]
+				if neighbor['name'] not in visitados:
+					new_path_list = get_all_path(graph, (neighbor['name'],neighbor['weight']),dest,path)
 				for new_path in new_path_list:
 					paths.append(new_path)
 			return paths
+
+def best_path(graph, src, dest):
+	best_weight = float('inf')
+	best = []
+	print(f"\nCalculating best path betwen {src} and {dest}")
+	for path in get_all_path(graph,src,dest):
+		weight = 0
+		for hop in path[1:]:
+			weight += hop[1]
+		if weight < best_weight:
+			best_weight = weight
+			best = [hop[0] for hop in path]
+	return best, best_weight
