@@ -137,3 +137,33 @@ for n in nodes:
 		neighbors = n['neighbors']
 
 sio.connect('http://localhost:5000')
+
+
+
+
+def get_path(graph, src, dest, path = []):
+	path = path + [src]
+	if src == dest: 
+		return path
+	for node in nodes:
+		if node['node_id'] == src:
+			for neighbor in node['neighbors']:
+				if neighbor['name'] not in path:
+					path_new = get_path(graph, neighbor['name'],dest,path)
+					if path_new:
+						return path_new
+
+def get_all_path(graph, src, dest, path = []):
+	path = path + [src]
+	if src == dest: 
+		return [path]
+	paths = []
+	new_path_list = []
+	for node in nodes:
+		if node['node_id'] == src:
+			for neighbor in node['neighbors']:
+				if neighbor['name'] not in path:
+					new_path_list = get_all_path(graph, neighbor['name'],dest,path)
+				for new_path in new_path_list:
+					paths.append(new_path)
+			return paths
