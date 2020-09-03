@@ -1,0 +1,158 @@
+[
+		{
+			"node_id": "A",
+			"neighbors": [
+				{
+					"name":"B",
+					"weight":7,
+					"next_hop": []
+				},
+				{
+					"name": "I",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name": "C",
+					"weight": 7,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "B",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 7,
+					"next_hop": []
+				},
+				{
+					"name": "F",
+					"weight": 2,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "C",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 7,
+					"next_hop": []
+				},
+				{
+					"name": "D",
+					"weight": 5,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "D",
+			"neighbors": [
+				{
+
+					"name":"E",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name":"F",
+					"weight":2,
+					"next_hop":[]
+				},
+				{
+					"name": "C",
+					"weight": 5,
+					"next_hop": []
+				},
+				{
+					"name": "I",
+					"weight": 6,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "E",
+			"neighbors": [
+				{
+					"name": "D",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name": "G",
+					"weight": 4,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "F",
+			"neighbors": [
+				{
+					"name": "B",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name": "D",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name": "G",
+					"weight": 3,
+					"next_hop": []
+				},
+				{
+					"name": "H",
+					"weight": 4,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "G",
+			"neighbors": [
+				{
+					"name": "F",
+					"weight": 3,
+					"next_hop": []
+				},
+				{
+					"name": "E",
+					"weight": 4,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "H",
+			"neighbors": [
+				{
+					"name": "F",
+					"weight": 4,
+					"next_hop": []
+				}
+			]
+		},
+		{
+			"node_id": "I",
+			"neighbors": [
+				{
+					"name": "A",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name": "D",
+					"weight": 6,
+					"next_hop": []
+				}
+			]
+		}
+]
