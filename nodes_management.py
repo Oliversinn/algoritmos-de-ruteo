@@ -16,6 +16,7 @@ nodes = [] #
 cont = 0
 nodes_use = []
 destino = 'N'
+cont = 0
 
 # llama al json con nodos
 # with open('nodes.json') as f:
@@ -71,6 +72,38 @@ def send_msg(sid, data):
             if (neighbor['name'] == node['username']) & (node['username'] != data['from'][-1]):
                 sio.emit('flood',data, to=node['id'])
                 print(f"Sent message to {session['username']}'s neighbor {node['username']}")
+
+
+@sio.on('distance_vector')
+def distance_vector(sid, data):
+    session = sio.get_session(sid)
+    global cont
+    cont += 1
+    print("hola " + str(cont))
+    for neighbor in session['neighbors']:
+        for node in nodes:
+            if (neighbor['name'] == node['username']) & (node['username'] != data['from'][-1]):
+                new_data = {
+                    'from': data['from'],
+                    'to': data['to'],
+                    'message': data['message'],
+                    'neighbors_nei': session['neighbors']
+                }
+                sio.emit('shortest_path', new_data, to=node['id'])
+                print(data['from'])
+                print(data['from'][-1])
+                print(f"Sent message to {session['username']}'s neighbor {node['username']}")
+
+@sio.on('deliver')
+def deliver(sid, data):
+
+    for noti in data['path']['next_hop']:
+        for n in nodes:
+            if noti == n['username']:
+                sio.emit('throug_you', to=n['id'])
+            elif n['username'] == data['nododest']:
+                sio.emit('vector_message', data['msg'],  to=n['id'])
+
 
 @sio.on('link_flood')
 def link_flood(sid,data):

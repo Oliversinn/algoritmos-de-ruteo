@@ -3,6 +3,11 @@
 			"node_id": "A",
 			"neighbors": [
 				{
+					"name":"B",
+					"weight":7,
+					"next_hop": []
+				},
+				{
 					"name": "I",
 					"weight": 2,
 					"next_hop": []
@@ -47,6 +52,17 @@
 		{
 			"node_id": "D",
 			"neighbors": [
+				{
+
+					"name":"E",
+					"weight": 2,
+					"next_hop": []
+				},
+				{
+					"name":"F",
+					"weight":2,
+					"next_hop":[]
+				},
 				{
 					"name": "C",
 					"weight": 5,
