@@ -13,8 +13,9 @@ app = socketio.WSGIApp(sio)
 nodes = [] #
 
 #Variable para contabilizar cuantas veces se esparce un mensaje
-EXCHANGE = 27
+cont = 0
 nodes_use = []
+destino = 'N'
 
 # llama al json con nodos
 # with open('nodes.json') as f:
@@ -89,23 +90,23 @@ def flood_aknowledge(sid, data):
 
 @sio.on('calc_distance')
 def calc_distance(sid, data):
-    print("aqui ando")
     global nodes_use
-    global EXCHANGE
+    global cont
+    global destino
     nodes_use.append(data['name'])
-    print(EXCHANGE)
-    if EXCHANGE == 0:
+    if cont == 0:
+        destino = data['dest']
+    cont += 1
+    for v in data['nei']:
         for n in nodes:
-            if n['name'] == nodes_use[0]:
-                sio.emit('done_calc', to=n['id'])
-                nodes_use.clear()
-                EXCHANGE = 27
-    else:
-        EXCHANGE -= 1
-        for v in data["nei"]:
-            for n in nodes:
-                if v['name'] == n['username']:
-                    sio.emit('update_table', {'nei':data["nei"], 'id':data['name']}, to=n['id'])
+            if v['name'] == n['username']:
+                new_data = {
+                    'nei': data['nei'],
+                    'id': data['name'],
+                    'dest': destino
+                }
+                print(new_data)
+                sio.emit('update_table', new_data, to=n['id'])
 
 if __name__ == '__main__':
     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
