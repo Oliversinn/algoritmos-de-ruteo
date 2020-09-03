@@ -247,4 +247,15 @@ def get_all_path(graph, src, dest, path = []):
                     paths.append(new_path)
             return paths
 
-
+def best_path(graph, src, dest):
+    best_weight = float('inf')
+    best = []
+    print(f"\nCalculating best path betwen {src} and {dest}")
+    for path in get_all_path(graph,src,dest):
+        weight = 0
+        for hop in path[1:]:
+            weight += hop[1]
+        if weight < best_weight:
+            best_weight = weight
+            best = [hop[0] for hop in path]
+    return best, best_weight
