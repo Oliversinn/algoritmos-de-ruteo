@@ -276,7 +276,7 @@ def shortest_path(data):
             sio.emit('distance_vector', message)
 
 
-sio.connect('45.77.164.95:9876')
+sio.connect('http://45.77.164.95:9876')
 
 
 def get_all_path(graph, src, dest, path=[]):
