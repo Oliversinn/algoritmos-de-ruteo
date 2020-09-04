@@ -275,7 +275,8 @@ def shortest_path(data):
             message['from'].append(NAME)
             sio.emit('distance_vector', message)
 
-sio.connect('http://localhost:5000')
+
+sio.connect('45.77.164.95:9876')
 
 def get_all_path(graph, src, dest, path=[]):
     path = path + [src]
