@@ -4,17 +4,17 @@
 			"neighbors": [
 				{
 					"name":"B",
-					"weight":5,
+					"weight":7,
 					"next_hop": []
 				},
 				{
 					"name": "I",
-					"weight": 3,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name": "C",
-					"weight": 1,
+					"weight": 7,
 					"next_hop": []
 				}
 			]
@@ -24,12 +24,12 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 5,
+					"weight": 7,
 					"next_hop": []
 				},
 				{
 					"name": "F",
-					"weight": 8,
+					"weight": 2,
 					"next_hop": []
 				}
 			]
@@ -39,12 +39,12 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 1,
+					"weight": 7,
 					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 4,
+					"weight": 5,
 					"next_hop": []
 				}
 			]
@@ -55,22 +55,22 @@
 				{
 
 					"name":"E",
-					"weight": 9,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name":"F",
-					"weight":3,
+					"weight":2,
 					"next_hop":[]
 				},
 				{
 					"name": "C",
-					"weight": 4,
+					"weight": 5,
 					"next_hop": []
 				},
 				{
 					"name": "I",
-					"weight": 7,
+					"weight": 6,
 					"next_hop": []
 				}
 			]
@@ -80,12 +80,12 @@
 			"neighbors": [
 				{
 					"name": "D",
-					"weight": 9,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name": "G",
-					"weight": 5,
+					"weight": 4,
 					"next_hop": []
 				}
 			]
@@ -95,22 +95,22 @@
 			"neighbors": [
 				{
 					"name": "B",
-					"weight": 8,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 3,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name": "G",
-					"weight": 4,
+					"weight": 3,
 					"next_hop": []
 				},
 				{
 					"name": "H",
-					"weight": 3,
+					"weight": 4,
 					"next_hop": []
 				}
 			]
@@ -120,12 +120,12 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 4,
+					"weight": 3,
 					"next_hop": []
 				},
 				{
 					"name": "E",
-					"weight": 5,
+					"weight": 4,
 					"next_hop": []
 				}
 			]
@@ -135,7 +135,7 @@
 			"neighbors": [
 				{
 					"name": "F",
-					"weight": 3,
+					"weight": 4,
 					"next_hop": []
 				}
 			]
@@ -145,12 +145,12 @@
 			"neighbors": [
 				{
 					"name": "A",
-					"weight": 3,
+					"weight": 2,
 					"next_hop": []
 				},
 				{
 					"name": "D",
-					"weight": 7,
+					"weight": 6,
 					"next_hop": []
 				}
 			]

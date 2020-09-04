@@ -233,7 +233,7 @@ def shortest_path(data):
     global neighbors
     global flag
     global cont
-    print("\n" + str(data))
+    #print("\n" + str(data))
     temp = neighbors
 
     if data['to'] == NAME:
@@ -242,7 +242,7 @@ def shortest_path(data):
         for n in neighbors:
             if n['name'] == data['from'][-1]:
                 distance_to_emitter = n['weight']
-                print("distancia emitter: " + str(distance_to_emitter))
+                #print("distancia emitter: " + str(distance_to_emitter))
         for n in temp:
             for v in data['neighbors_nei']:
                 if n['name'] == v['name']:
